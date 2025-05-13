@@ -316,7 +316,7 @@ var scriptOriginsetAttribute = Element.prototype.setAttribute
 Element.prototype.setAttribute = function (name, value) {
     // 处理src和href属性
     if (name === 'src' || name === 'href') {
-        var url = value
+        var url = value || ""
         if (!url.startsWith('http')) {
             if (url.startsWith("vscode")) {
                 url = url.replace(window.location.origin, "")
@@ -340,7 +340,8 @@ Object.defineProperty(scriptProto, 'src', {
         // if (value && (value.startsWith('/') || value.startsWith('./'))) {
         //     value = requestConfig.resourceDomain + value.replace(/^\.?\//, '/');
         // }
-        var url = value
+        var url = value || ""
+        url = url.toString()
         if (!url.startsWith('http')) {
             if (url.startsWith("vscode")) {
                 url = url.replace(window.location.origin, "")
@@ -354,3 +355,5 @@ Object.defineProperty(scriptProto, 'src', {
         return value;
     }
 });
+var acquireVsCodeApi = window.acquireVsCodeApi
+var tgWin = acquireVsCodeApi && acquireVsCodeApi()

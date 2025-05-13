@@ -16,8 +16,21 @@
       {
         "command": "jsonvieweditor.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "jsonvieweditor.openWithCustomViewer",
+        "title": "jsonViewEditor编辑"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "jsonvieweditor.openWithCustomViewer",
+          "when": "resourceFilename =~ /\\.(json)$/i",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
