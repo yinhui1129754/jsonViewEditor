@@ -11,17 +11,18 @@ function replaceScriptSrc(html: string, transformFn: any) {
 		return `${prefix}src=${quote}${newSrc}${quote}`;
 	});
 }
-function createWebView(context: vscode.ExtensionContext) {
+function createWebView(context: vscode.ExtensionContext, name?: string) {
 	// var pannel = vscode.window.createWebviewPanel("1", "test", vscode.ViewColumn.One)
 	// 创建Webview面板
 	const panel = vscode.window.createWebviewPanel(
-		'jsonEditor', // 视图类型标识
-		'JSON Editor', // 面板标题
+		name || 'jsonEditor', // 视图类型标识
+		name || 'JSON Editor', // 面板标题
 		vscode.ViewColumn.One, // 显示在编辑器哪个位置
 		{
 			enableScripts: true, // 启用JavaScript
-			retainContextWhenHidden: true
+			retainContextWhenHidden: true,
 			// retainContextWhenHidden: true // 保持状态（可选）
+
 		}
 	);
 
@@ -76,13 +77,18 @@ function createWebView(context: vscode.ExtensionContext) {
       <script src="${scriptUri}"></script>${htmlContent}`
 
 
+	panel.iconPath = {
+		light: vscode.Uri.file(context.asAbsolutePath("assets/json.svg")), // 亮色主题图标
+		dark: vscode.Uri.file(context.asAbsolutePath("assets/json.svg"))  // 暗色主题图标
+	}
 	panel.webview.html = htmlContent
 
 	return panel
 }
 function rightMenuEditor(context: vscode.ExtensionContext, uri: vscode.Uri) {
 
-	var panel = createWebView(context)
+	var pathObj = path.parse(uri.fsPath)
+	var panel = createWebView(context, pathObj.name + pathObj.ext)
 	var jsonContent = fs.readFileSync(uri.fsPath, "utf-8")
 	var isLoaded = false
 	var isServer = false

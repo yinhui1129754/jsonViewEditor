@@ -2,13 +2,14 @@
   "name": "jsonvieweditor",
   "displayName": "JsonViewEditor",
   "description": "A visual plugin for editing JSON",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.100.0"
   },
   "categories": [
     "Other"
   ],
+  "publisher": "yinhuijsonvieweditor",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
