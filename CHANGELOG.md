@@ -1,9 +1,11 @@
 # Change Log
 
-All notable changes to the "jsonvieweditor" extension will be documented in this file.
+## [1.0.0]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- 基础版本发布
 
-## [Unreleased]
 
-- Initial release
+## [1.0.1]
+
+- 修复bug  
+- 皮肤颜色主题跟随编辑器  

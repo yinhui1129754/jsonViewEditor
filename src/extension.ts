@@ -115,6 +115,10 @@ async function modifyFileWithVSCodeAPI(uri: vscode.Uri, content: string) {
 		vscode.window.showErrorMessage('保存文件时出错: ' + error);
 	}
 }
+// 检查是否为暗色主题
+function isDarkTheme() {
+	return vscode.window.activeColorTheme.kind === vscode.ColorThemeKind.Dark;
+}
 function rightMenuEditor(context: vscode.ExtensionContext, uri: vscode.Uri) {
 
 	var pathObj = path.parse(uri.fsPath)
@@ -154,6 +158,10 @@ function rightMenuEditor(context: vscode.ExtensionContext, uri: vscode.Uri) {
 					panel.webview.postMessage({
 						command: "setJson",
 						json: jsonContent
+					})
+					panel.webview.postMessage({
+						command: "setTheme",
+						json: isDarkTheme() ? "dark" : "light"
 					})
 					break;
 				}
