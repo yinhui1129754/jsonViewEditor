@@ -85,6 +85,36 @@ function createWebView(context: vscode.ExtensionContext, name?: string) {
 
 	return panel
 }
+
+async function modifyFileWithVSCodeAPI(uri: vscode.Uri, content: string) {
+	try {
+		// 使用 VS Code API 读取文件
+		const document = await vscode.workspace.openTextDocument(uri);
+
+		// 创建编辑构建器
+		const edit = new vscode.WorkspaceEdit();
+
+		// 替换整个文件内容
+		const fullRange = new vscode.Range(
+			document.positionAt(0),
+			document.positionAt(document.getText().length)
+		);
+
+		edit.replace(uri, fullRange, content);
+
+		// 应用编辑并保存文件
+		const success = await vscode.workspace.applyEdit(edit);
+		if (success) {
+			await document.save();
+			vscode.window.showInformationMessage('文件已修改并保存');
+		} else {
+			vscode.window.showErrorMessage('修改文件失败');
+		}
+	} catch (error) {
+		console.error('保存文件时出错:', error);
+		vscode.window.showErrorMessage('保存文件时出错: ' + error);
+	}
+}
 function rightMenuEditor(context: vscode.ExtensionContext, uri: vscode.Uri) {
 
 	var pathObj = path.parse(uri.fsPath)
@@ -112,7 +142,8 @@ function rightMenuEditor(context: vscode.ExtensionContext, uri: vscode.Uri) {
 					if (!isLoaded) {
 						break;
 					}
-					fs.writeFileSync(uri.fsPath, message.json)
+					// fs.writeFileSync(uri.fsPath, message.json)
+					modifyFileWithVSCodeAPI(uri, message.json)
 					break;
 				}
 				case "loaded": {
